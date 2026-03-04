@@ -1,5 +1,5 @@
 ---
-name: favicon-api-mcp
+name: favicon.so
 description: Use Favicon.so API and MCP tools to fetch website favicons, provide search and generator routes, and return integration-ready outputs for engineering workflows.
 license: MIT
 metadata:
