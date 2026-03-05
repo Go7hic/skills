@@ -1,44 +1,115 @@
 ---
-name: favicon.so
-description: Use Favicon.so API and MCP tools to fetch website favicons, provide search and generator routes, and return integration-ready outputs for engineering workflows.
+name: favicon-so
+description: favicon.so project API reference — covers the favicon fetch API and image-to-favicon-package convert API. Use when working on API routes, building integrations, debugging favicon fetch/convert behavior, or adding new endpoints to this project.
 license: MIT
 metadata:
   author: favicon.so
   version: 1.0.0
 ---
 
-# Favicon API + MCP Skill
+# favicon.so API
 
-Use this skill when users ask for favicon lookup, favicon generation guidance, or brand icon collection at scale.
+## API 1: Favicon Fetch
 
-## Core capabilities
+Fetch any website's favicon by domain.
 
-1. Fetch favicon data for domains with MCP tools when available.
-2. Fall back to the REST API when MCP is unavailable.
-3. Return stable, integration-ready output (tables, links, and code snippets).
+### Endpoints
 
-## Preferred execution order
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/favicon?url={domain}` | Fetch favicon with full options |
+| GET | `/{domain}` | Short URL, returns favicon image directly |
 
-1. Normalize the domain input before requests.
-2. Try MCP tools first:
-   - `get_favicon`
-   - `get_favicon_generator_url`
-   - `search_favicons`
-3. If MCP tools are unavailable, use API fallback:
-   - `GET https://favicon.so/api/favicon?url=<domain>&raw=true`
-4. If the user asks for an embeddable image URL, use:
-   - `https://favicon.so/api/favicon?url=<domain>`
+### Parameters
 
-## Output contract
+| Param | Type | Required | Description |
+|-------|------|----------|-------------|
+| `url` | string | yes | Domain or URL (e.g. `github.com`) |
+| `raw` | string | no | Set to `"true"` for JSON metadata instead of image |
 
-- Always include `domain`, `url`, `format`, and `isDefault` when available.
-- If a favicon cannot be fetched, explain the failure reason and provide a fallback route:
-  - Search page: `https://favicon.so/en/search?q=<query>`
-  - Generator page: `https://favicon.so/en/generator`
-- Keep the final output concise and directly actionable.
+### Response Modes
 
-## Prompt patterns
+**Image mode (default):**
+Returns binary image data with headers:
+- `Content-Type`: actual image MIME type
+- `Cache-Control: public, max-age=604800`
+- `Access-Control-Allow-Origin: *`
 
-- "Fetch favicons for these domains and return a markdown table."
-- "Check favicon quality coverage for a list of partner domains."
-- "Provide fallback generator links when a site has no valid favicon."
+**JSON mode (`raw=true`):**
+```json
+{
+  "url": "https://github.githubassets.com/favicons/favicon.svg",
+  "format": "image/svg+xml",
+  "isDefault": false
+}
+```
+
+### Implementation
+
+- Source: `app/api/favicon/route.ts` and `app/[locale]/[domain]/route.ts`
+- Core logic: `lib/fetchFavicon.ts` — tries HTML parsing, `/favicon.ico`, Google, DuckDuckGo fallbacks
+- Domain validation: `lib/utils.ts` — `normalizeDomain()`, `isValidDomain()`
+- Falls back to a default SVG icon when all sources fail
+
+## API 2: Image Convert
+
+Convert any image into a complete favicon package with all sizes.
+
+### Endpoint
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/convert` | Upload image, get favicon package |
+
+### Request
+
+**Content-Type:** `multipart/form-data`
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `image` | File | yes | Image file (PNG, JPG, WebP, GIF, BMP, TIFF) |
+
+Also accepts raw image bytes with `Content-Type: image/*` or `application/octet-stream`.
+
+### Query Parameters
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `format` | string | — | Set to `"json"` for base64 JSON output instead of ZIP |
+
+### Response
+
+**ZIP mode (default):**
+Returns `application/zip` containing 10 files:
+- `favicon.ico` (multi-resolution: 16, 32, 48, 64, 128)
+- `favicon-16x16.png`, `favicon-32x32.png`, `favicon-48x48.png`, `favicon-64x64.png`, `favicon-128x128.png`
+- `apple-touch-icon.png` (180×180)
+- `android-chrome-192x192.png`, `android-chrome-512x512.png`
+- `site.webmanifest`
+
+**JSON mode (`format=json`):**
+```json
+{
+  "files": {
+    "favicon-16x16.png": { "size": 1234, "base64": "iVBOR..." },
+    "favicon.ico": { "size": 5678, "base64": "AAAB..." },
+    ...
+  }
+}
+```
+
+### Implementation
+
+- Source: `app/api/convert/route.ts`
+- Image processing: `jimp` (pure JS, Cloudflare Workers compatible)
+- ICO generation: custom multi-resolution ICO builder
+- ZIP packaging: `jszip`
+- CORS enabled, no auth required
+
+## Architecture Notes
+
+- All API routes are in `app/api/` and skip the i18n middleware
+- The `[locale]/[domain]/route.ts` catch-all serves as a short URL for favicon fetch
+- Reserved paths (`search`, `convert`, `api`, `generator`, `skill`, `mcp`) are excluded from the domain catch-all
+- Client-side convert page (`app/[locale]/convert/page.tsx`) uses WASM (Photon + resvg) for browser-native processing
+- Server-side convert API uses `jimp` for Node.js/Workers compatibility
