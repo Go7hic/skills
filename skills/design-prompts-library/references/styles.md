@@ -1,0 +1,32 @@
+# Design Prompts Styles
+
+- `design-prompt-academia` -> Academia | light | #7C2D12 | https://www.designprompts.dev/academia
+- `design-prompt-art-deco` -> Art Deco | dark | #D4AF37 | https://www.designprompts.dev/art-deco
+- `design-prompt-bauhaus` -> Bauhaus | light | #D02020 | https://www.designprompts.dev/bauhaus
+- `design-prompt-bold-typography` -> Bold Typography | dark | #FF3D00 | https://www.designprompts.dev/bold-typography
+- `design-prompt-botanical` -> Botanical / Organic Serif | light | #C27B66 | https://www.designprompts.dev/botanical
+- `design-prompt-claymorphism` -> Clay | light | #F472B6 | https://www.designprompts.dev/claymorphism
+- `design-prompt-cyberpunk` -> Cyberpunk | dark | #00ff88 | https://www.designprompts.dev/cyberpunk
+- `design-prompt-enterprise` -> Corporate Trust | light | #4F46E5 | https://www.designprompts.dev/enterprise
+- `design-prompt-flat-design` -> Flat Design | light | #3B82F6 | https://www.designprompts.dev/flat-design
+- `design-prompt-industrial` -> Industrial | light | #EA580C | https://www.designprompts.dev/industrial
+- `design-prompt-kinetic` -> Kinetic | dark | #F97316 | https://www.designprompts.dev/kinetic
+- `design-prompt-luxury` -> Luxury | light | #B8860B | https://www.designprompts.dev/luxury
+- `design-prompt-material-design` -> Material | light | #7C3AED | https://www.designprompts.dev/material-design
+- `design-prompt-maximalism` -> Maximalism | light | #EC4899 | https://www.designprompts.dev/maximalism
+- `design-prompt-minimal-dark` -> Simple Dark | dark | #F59E0B | https://www.designprompts.dev/minimal-dark
+- `design-prompt-modern-dark` -> Modern Dark | dark | #6366F1 | https://www.designprompts.dev/modern-dark
+- `design-prompt-monochrome` -> Monochrome | light | #ffffff | https://www.designprompts.dev/monochrome
+- `design-prompt-neo-brutalism` -> Neo-brutalism | light | #FACC15 | https://www.designprompts.dev/neo-brutalism
+- `design-prompt-neumorphism` -> Neumorphism | light | #64748B | https://www.designprompts.dev/neumorphism
+- `design-prompt-newsprint` -> Newsprint | light | #1a1a1a | https://www.designprompts.dev/newsprint
+- `design-prompt-organic` -> Organic / Natural | light | #5D7052 | https://www.designprompts.dev/organic
+- `design-prompt-playful-geometric` -> Playful Geometric | light | #8B5CF6 | https://www.designprompts.dev/playful-geometric
+- `design-prompt-professional` -> Business Style | light | #B8860B | https://www.designprompts.dev/professional
+- `design-prompt-retro` -> Retro | light | #9333EA | https://www.designprompts.dev/retro
+- `design-prompt-saas` -> Tech Style | light | #0052FF | https://www.designprompts.dev/saas
+- `design-prompt-sketch` -> Hand-Drawn / Sketch | light | #ff4d4d | https://www.designprompts.dev/sketch
+- `design-prompt-swiss-minimalist` -> Swiss | light | #DC2626 | https://www.designprompts.dev/swiss-minimalist
+- `design-prompt-terminal` -> Terminal CLI | dark | #33ff00 | https://www.designprompts.dev/terminal
+- `design-prompt-vaporwave` -> Vaporwave | dark | #FF00FF | https://www.designprompts.dev/vaporwave
+- `design-prompt-web3` -> Crypto | dark | #F7931A | https://www.designprompts.dev/web3
