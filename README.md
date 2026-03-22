@@ -1,6 +1,7 @@
 # Agent Skills 集合
 
-本仓库是一组给 **Cursor / Codex / Claude Code** 等环境用的 **Agent Skills**（`SKILL.md` + 可选 `references/`）。每个子目录是一个独立技能，由编排器按 `description` 元数据匹配用户任务后加载。
+- **GitHub：** [github.com/Go7hic/skills](https://github.com/Go7hic/skills)
+- **说明：** 一组给 **Cursor / Codex / Claude Code** 等环境用的 **Agent Skills**（`SKILL.md` + 可选 `references/`）。每个子目录是一个独立技能，由编排器按 `description` 元数据匹配用户任务后加载。
 
 ## 目录结构
 
@@ -11,13 +12,31 @@ skills/
 └── favicon-so/               # favicon.so API 参考
 ```
 
-## 安装方式（任选）
+## 通过 [skills.sh CLI](https://skills.sh/docs/cli) 安装本仓库
 
-- **Cursor**：将需要的技能文件夹复制到 Cursor 配置的 skills 目录（例如用户级 `~/.cursor/skills/` 或项目内约定路径），确保编排器能扫描到 `SKILL.md`。
+无需全局安装，在项目或任意目录执行：
+
+```bash
+npx skills add Go7hic/skills
+```
+
+对应源码仓库：[Go7hic/skills](https://github.com/Go7hic/skills)（`git@github.com:Go7hic/skills.git`）。
+
+CLI 行为与更多参数见官方文档：[CLI Reference](https://skills.sh/docs/cli)。
+
+**遥测：** 默认会上报匿名使用数据。关闭：
+
+```bash
+export DISABLE_TELEMETRY=1
+```
+
+## 安装方式（手动或其它工具）
+
+- **Cursor**：将需要的技能文件夹复制或链接到 Cursor 配置的 skills 目录（例如用户级 `~/.cursor/skills/`），确保编排器能扫描到 `SKILL.md`。
 - **Codex**：按官方说明安装到 `$CODEX_HOME/skills`（可用 [skill-installer](https://github.com/openai/codex) 等工具从路径或仓库拉取）。
 - **Claude Code**：使用平台的 Skill 工具/配置，指向本仓库中对应子目录。
 
-具体路径以你当前客户端文档为准；本仓库只提供技能源文件，不包含 CLI 包装。
+具体路径以你当前客户端文档为准。
 
 ## 技能一览
 
