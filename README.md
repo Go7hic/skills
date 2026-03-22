@@ -1,51 +1,75 @@
-# Agent Skills 集合
+# Agent Skills
 
-- **GitHub：** [github.com/Go7hic/skills](https://github.com/Go7hic/skills)
-- **说明：** 一组给 **Cursor / Codex / Claude Code** 等环境用的 **Agent Skills**（`SKILL.md` + 可选 `references/`）。每个子目录是一个独立技能，由编排器按 `description` 元数据匹配用户任务后加载。
+- **GitHub:** [github.com/Go7hic/skills](https://github.com/Go7hic/skills)
+- **About:** **Agent Skills** for **Cursor**, **Codex**, **Claude Code**, and similar environments (`SKILL.md` plus optional `references/`). When installing with the **[skills CLI](https://www.npmjs.com/package/skills)**, prefer the two entry points below—`design-prompts-library` and `favicon-so` (see [Install](#install-via-skills-cli)); the other `design-prompt-*` folders are per-style Design Prompts implementations referenced from the library docs.
 
-## 目录结构
+## Repository layout
 
 ```
 skills/
-├── design-prompts-library/   # 总览：如何从 Design Prompts 系列里选风格
-├── design-prompt-*/          # 各视觉/落地页风格（见下表）
-└── favicon-so/               # favicon.so API 参考
+├── design-prompts-library/   # Index: choosing a Design Prompts style
+├── design-prompt-*/          # Individual landing-page / UI aesthetics (see table)
+└── favicon-so/               # favicon.so API reference
 ```
 
-## 通过 [skills.sh CLI](https://skills.sh/docs/cli) 安装本仓库
+## Install via [skills CLI](https://skills.sh/docs/cli)
 
-无需全局安装，在项目或任意目录执行：
+Source: [Go7hic/skills](https://github.com/Go7hic/skills) (`git@github.com:Go7hic/skills.git`). CLI docs: [skills.sh](https://skills.sh/docs/cli); package: [npm: `skills`](https://www.npmjs.com/package/skills).
+
+This repo has **many directories under `skills/` that contain `SKILL.md`**. Running `npx skills add Go7hic/skills` **without** narrowing the set usually pulls **multiple** skills from the scan (including every `design-prompt-*`), which is heavy. **Prefer explicitly selecting the two public entry points:**
+
+| Entry | Purpose |
+|------|---------|
+| `design-prompts-library` | Design Prompts style picker / overview; concrete styles live in `design-prompt-*` |
+| `favicon-so` | [favicon.so](https://favicon.so) API reference |
+
+**Install one:**
 
 ```bash
-npx skills add Go7hic/skills
+npx skills add Go7hic/skills --skill design-prompts-library
+# or
+npx skills add Go7hic/skills --skill favicon-so
 ```
 
-对应源码仓库：[Go7hic/skills](https://github.com/Go7hic/skills)（`git@github.com:Go7hic/skills.git`）。
-
-CLI 行为与更多参数见官方文档：[CLI Reference](https://skills.sh/docs/cli)。
-
-**遥测：** 默认会上报匿名使用数据。关闭：
+**Install both:**
 
 ```bash
-export DISABLE_TELEMETRY=1
+npx skills add Go7hic/skills --skill design-prompts-library --skill favicon-so
 ```
 
-## 安装方式（手动或其它工具）
+**List what the CLI discovers (no install):**
 
-- **Cursor**：将需要的技能文件夹复制或链接到 Cursor 配置的 skills 目录（例如用户级 `~/.cursor/skills/`），确保编排器能扫描到 `SKILL.md`。
-- **Codex**：按官方说明安装到 `$CODEX_HOME/skills`（可用 [skill-installer](https://github.com/openai/codex) 等工具从路径或仓库拉取）。
-- **Claude Code**：使用平台的 Skill 工具/配置，指向本仓库中对应子目录。
+```bash
+npx skills add Go7hic/skills --list
+```
 
-具体路径以你当前客户端文档为准。
+**Install from a subdirectory URL (single skill):**
 
-## 技能一览
+```bash
+npx skills add https://github.com/Go7hic/skills/tree/main/skills/design-prompts-library
+npx skills add https://github.com/Go7hic/skills/tree/main/skills/favicon-so
+```
 
-### Design Prompts 库
+Other useful flags: `-g` (user-wide install), `-a cursor` / `-a codex` to target agents—see the [npm readme](https://www.npmjs.com/package/skills).
 
-| 技能 ID | 用途简述 |
-|--------|----------|
-| `design-prompts-library` | 帮用户从 Design Prompts 系列里选风格、浏览美学方向 |
-| `design-prompt-academia` | Academia 风格落地页/界面 |
+**Telemetry:** enabled by default (anonymous). Opt out: `export DISABLE_TELEMETRY=1` or `DO_NOT_TRACK`.
+
+## Manual install (or other tools)
+
+- **Cursor:** Copy or symlink the skill folders into your Cursor skills path (e.g. `~/.cursor/skills/`) so the orchestrator can see `SKILL.md`.
+- **Codex:** Follow upstream docs for `$CODEX_HOME/skills` (e.g. [Codex skill installer](https://github.com/openai/codex) from a path or repo).
+- **Claude Code:** Point the platform’s skill tooling/config at the matching subdirectory in this repo.
+
+Exact paths depend on your client’s documentation.
+
+## Skill index
+
+### Design Prompts
+
+| Skill ID | Summary |
+|----------|---------|
+| `design-prompts-library` | Help users pick a Design Prompts style or browse aesthetics |
+| `design-prompt-academia` | Academia landing / UI |
 | `design-prompt-art-deco` | Art Deco |
 | `design-prompt-bauhaus` | Bauhaus |
 | `design-prompt-bold-typography` | Bold Typography |
@@ -76,20 +100,19 @@ export DISABLE_TELEMETRY=1
 | `design-prompt-vaporwave` | Vaporwave |
 | `design-prompt-web3` | Crypto / Web3 |
 
-实现细节、色板与约束以各技能目录下的 `SKILL.md` 及 `references/style.md`（若有）为准。
+Details, palettes, and constraints: each skill’s `SKILL.md` and `references/style.md` when present.
 
-### 其他
+### Other
 
-| 技能 ID | 用途简述 |
-|--------|----------|
-| `favicon-so` | [favicon.so](https://favicon.so) 的抓取与转图标包 API 说明；对接路由、调试或扩 endpoint 时用 |
+| Skill ID | Summary |
+|----------|---------|
+| `favicon-so` | [favicon.so](https://favicon.so) fetch + image-to-favicon-package APIs—routes, debugging, new endpoints |
 
-## 文件约定
+## Conventions
 
-- 每个技能根目录必有 **`SKILL.md`**，顶部 YAML frontmatter 含 `name`、`description`（有的含 `license` / `metadata`）。
-- 可选 **`references/`**：长文规范、风格说明等，由 `SKILL.md` 引用。
+- Each skill root **must** include **`SKILL.md`** with YAML frontmatter: `name`, `description` (sometimes `license` / `metadata`).
+- Optional **`references/`** for long-form specs or style notes, linked from `SKILL.md`.
 
-## 许可
+## License
 
 MIT
-
