@@ -72,8 +72,5 @@ skills/
 
 ## 许可
 
-各技能若单独声明许可（如 `favicon-so` 的 MIT），以该 `SKILL.md` frontmatter 为准；未声明的请查看原作者/上游 Design Prompts 的条款后再分发。
+MIT
 
-## 贡献 / 同步
-
-新增技能：在 `skills/` 下新建目录，保持与其他 `design-prompt-*` 相同的 `SKILL.md` 结构，并在本 README 表格中补一行说明即可。
